@@ -49,7 +49,7 @@ public class Vehicle{
 	}
 	
 	//adds a vehicle to the inventory
-	public void addVehicle(Vehicle[] inventory){
+	void addVehicle(Vehicle[] inventory){
 		for (int i = 0; i<inventory.length; i++){
 			if (inventory[i] == null) {
 				inventory[i] = this;
@@ -59,7 +59,7 @@ public class Vehicle{
 	}
 	
 	//removes a vehicle from the inventory
-	public void removeVehicle(Vehicle[] inventory){
+	void removeVehicle(Vehicle[] inventory){
 		for (int i = 0; i<inventory.length; i++){
 			if (inventory[i] == this) {
 				inventory[i] = null;
@@ -69,7 +69,7 @@ public class Vehicle{
 	}
 	
 	//overriding the print function be declaring our own print specs
-	 public String toString() {
+	public String toString() {
 	        String p =  "VIN: "+vin+" "+year+" "+make; /*+" "+model+"\n"+color+", "+weight+"lbs"+"\n"+mileage+" miles driven \n"+"ONLY "+msrp+"\n"+"Contact: "+manufacturer+"\n";*/
 	        if(make == "BMW") {
 		 		p = p+"© Copyright BMW AG, Munich, Germany\n";
@@ -79,7 +79,7 @@ public class Vehicle{
 	}
 	 
 	 //cycles through the given inventory and prints results
-	 public static void printAll(Vehicle[] inventory){
+	 static void printAll(Vehicle[] inventory){
 		 for (int i = 0; i<inventory.length; i++){
 				if (inventory[i] != null){
 					System.out.println(inventory[i]);
@@ -89,19 +89,19 @@ public class Vehicle{
 	 
 	 /* from: https://www.cs.cmu.edu/~adamchik/15-121/lectures/Sorting%20Algorithms/sorting.html
 	  * void selectionSort(int[] ar){
-		   for (int i = 0; i ‹ ar.length-1; i++)
-		   {
+		   for (int i = 0; i ‹ ar.length-1; i++) {
 		      int min = i;
 		      for (int j = i+1; j ‹ ar.length; j++)
 		            if (ar[j] ‹ ar[min]) min = j;
 		      int temp = ar[i];
 		      ar[i] = ar[min];
 		      ar[min] = temp;
-		} }
+			} 
+		}
 		*/
 	 
 	//sorts given Vehicle array by VIN
-	public static Vehicle[] sortVIN(Vehicle[] inventory){	
+	static Vehicle[] sortVIN(Vehicle[] inventory){	
 		for(int i = 0; i< inventory.length-1; i++) {
 			if (inventory[i] != null) {
 				int min = inventory[i].vin;
@@ -124,7 +124,7 @@ public class Vehicle{
 	}
 
 	//TODO: actually sort given Vehicle array by Make and then Model
-	public static Vehicle[] sortMake(Vehicle[] inventory){
+	static Vehicle[] sortMake(Vehicle[] inventory){
 		List<String> makes = new ArrayList();
 		for(int i = 0; i<inventory.length; i++) {
 			if (inventory[i] != null) {
@@ -138,7 +138,7 @@ public class Vehicle{
 	}
 	
 	//sorts given Vehicle array by Year
-	public static Vehicle[] sortYear(Vehicle[] inventory){	
+	static Vehicle[] sortYear(Vehicle[] inventory){	
 		for(int i = 0; i< inventory.length-1; i++) {
 			if (inventory[i] != null) {
 				int min = inventory[i].year;
@@ -161,7 +161,7 @@ public class Vehicle{
 	}
 	
 	//returns a list of vehicles from the given inventory and from the given year 
-	public static Vehicle[] findByYear(Vehicle[] inventory, int year) {
+	static Vehicle[] findByYear(Vehicle[] inventory, int year) {
 		Vehicle[] list = new Vehicle[100];
 		for (int i = 0; i<inventory.length; i++){
 			if (inventory[i] != null && inventory[i].year == year){
@@ -172,7 +172,7 @@ public class Vehicle{
 	}
 	
 	//returns a list of vehicles from the given inventory and from the given year 
-	public static Vehicle[] findByMake(Vehicle[] inventory, String make) {
+	static Vehicle[] findByMake(Vehicle[] inventory, String make) {
 		Vehicle[] list = new Vehicle[10];
 		for (int i = 0; i<inventory.length; i++){
 			if (inventory[i] != null && inventory[i].make.equals(make)){
@@ -183,12 +183,12 @@ public class Vehicle{
 	}
 		
 	//instance specific mileage assignment
-	public void addToMileage(int sum){
+	void addToMileage(int sum){
 		this.mileage = this.mileage+sum;
 	}
 	
 	//iterative looping adding mileage assignment (static)
-	public static void addToMileage(Vehicle[] inventory, int sum){
+	static void addToMileage(Vehicle[] inventory, int sum){
 		for(int i = 0; i<inventory.length; i++){
 			if (inventory[i] != null){
 				inventory[i].mileage = inventory[i].mileage+sum;
@@ -198,13 +198,13 @@ public class Vehicle{
 	}
 	
 	//oil change resets daysSinceOil and milesSinceOil
-	public void oilChange(){
+	void oilChange(){
 		this.daysSinceOil = 0;
 		this.milesSinceOil = 0;
 	}
 	
 	//checks if the instance its called on needs an oil change
-	public boolean needsOil(){
+	boolean needsOil(){
 		if (make == "Subaru"){
 			if (this.daysSinceOil == 180) {
 				return true;
@@ -236,7 +236,7 @@ public class Vehicle{
 	}
 	
 	//iterates through the given list and returns average msrp
-	public static double findAvgMSRP(Vehicle[] inventory){
+	static double findAvgMSRP(Vehicle[] inventory){
 		int sum = 0;
 		int numOfVehicles = 0;
 		for (int i = 0; i<inventory.length; i++){
@@ -249,7 +249,7 @@ public class Vehicle{
 	}
 	
 	//iterates through the given list and returns the minimum msrp
-	public static double findMinMSRP(Vehicle[] inventory){
+	static double findMinMSRP(Vehicle[] inventory){
 		double min = 1000000.00;
 		for (int i = 0; i<inventory.length; i++){
 			if (inventory[i] != null) {
@@ -262,7 +262,7 @@ public class Vehicle{
 	}
 
 	//iterates through the list and returns the maximum msrp
-	public static double findMaxMSRP(Vehicle[] inventory){
+	static double findMaxMSRP(Vehicle[] inventory){
 		double max = 0.0;
 		for (int i = 0; i<inventory.length; i++){
 			if (inventory[i] != null) {
@@ -275,7 +275,7 @@ public class Vehicle{
 	}
 	
 	//iterates through the given list and returns average mileage
-	public static int findAvgMileage(Vehicle[] inventory){
+	static int findAvgMileage(Vehicle[] inventory){
 		int sum = 0;
 		int numOfVehicles = 0;
 		for (int i = 0; i<inventory.length; i++){
@@ -288,7 +288,7 @@ public class Vehicle{
 	}
 	
 	//iterates through the given list and returns the minimum mileage
-	public static int findMinMileage(Vehicle[] inventory){
+	static int findMinMileage(Vehicle[] inventory){
 		int min = 1000000;
 		for (int i = 0; i<inventory.length; i++){
 			if (inventory[i] != null) {
@@ -301,7 +301,7 @@ public class Vehicle{
 	}
 		
 	//iterates through the list and returns the maximum mileage
-	public static int findMaxMileage(Vehicle[] inventory){
+	static int findMaxMileage(Vehicle[] inventory){
 		int max = 0;
 		for (int i = 0; i<inventory.length; i++){
 			if (inventory[i] != null) {
@@ -313,7 +313,7 @@ public class Vehicle{
 		return max;
 	}
 		
-	public static int numNeedingOil(Vehicle[] inventory) {
+	static int numNeedingOil(Vehicle[] inventory) {
 		int sum = 0;
 		for (int i = 0; i<inventory.length; i++){
 			if (inventory[i] != null && inventory[i].needsOil()){
