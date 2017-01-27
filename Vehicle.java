@@ -70,7 +70,7 @@ public class Vehicle{
 	
 	//overriding the print function be declaring our own print specs
 	public String toString() {
-	        String p =  "VIN: "+vin+" "+year+" "+make; /*+" "+model+"\n"+color+", "+weight+"lbs"+"\n"+mileage+" miles driven \n"+"ONLY "+msrp+"\n"+"Contact: "+manufacturer+"\n";*/
+	        String p =  "VIN: "+vin+" "+year+" "+make+" "+model+"\n"+color+", "+weight+"lbs"+"\n"+mileage+" miles driven \n"+"ONLY "+msrp+"\n"+"Contact: "+manufacturer+"\n";
 	        if(make == "BMW") {
 		 		p = p+"© Copyright BMW AG, Munich, Germany\n";
 		 	}
@@ -86,19 +86,6 @@ public class Vehicle{
 				}
 			}
 	 }
-	 
-	 /* from: https://www.cs.cmu.edu/~adamchik/15-121/lectures/Sorting%20Algorithms/sorting.html
-	  * void selectionSort(int[] ar){
-		   for (int i = 0; i ‹ ar.length-1; i++) {
-		      int min = i;
-		      for (int j = i+1; j ‹ ar.length; j++)
-		            if (ar[j] ‹ ar[min]) min = j;
-		      int temp = ar[i];
-		      ar[i] = ar[min];
-		      ar[min] = temp;
-			} 
-		}
-		*/
 	 
 	//sorts given Vehicle array by VIN
 	static Vehicle[] sortVIN(Vehicle[] inventory){	
@@ -134,12 +121,71 @@ public class Vehicle{
 		Collections.sort(makes, String.CASE_INSENSITIVE_ORDER);
 		Vehicle[] sorted = new Vehicle[10];
 		System.out.println(makes);
+		/*attempt at iteration through the sorted makes to create a list of Vehicles sorted by make
+		 for (int i = 0; i< makes.size()-1; i++) {
+			for (int j = 1; i<inventory.length-1; j++) {
+				if(inventory[j] != null) { 
+					System.out.println(inventory[j]+" "+inventory[i]+" "+inventory[j].make.equals(makes.get(i)));
+					if (inventory[j].make.equals(makes.get(i))) {
+						sorted[i] = inventory[j];
+					}
+				}
+			}
+		}
+		*/
 		return sorted;
 	}
 	
-	//sorts given Vehicle array by Year
-	static Vehicle[] sortYear(Vehicle[] inventory){	
-		for(int i = 0; i< inventory.length-1; i++) {
+	 /* Selection sort from: https://www.cs.cmu.edu/~adamchik/15-121/lectures/Sorting%20Algorithms/sorting.html
+	  * void selectionSort(int[] ar){
+		   for (int i = 0; i ‹ ar.length-1; i++) {
+		      int min = i;
+		      for (int j = i+1; j ‹ ar.length; j++)
+		            if (ar[j] ‹ ar[min]) min = j;
+		      int temp = ar[i];
+		      ar[i] = ar[min];
+		      ar[min] = temp;
+			} 
+		}
+		*/
+	
+	/* Insertion sort from: http://www.java2novice.com/java-sorting-algorithms/insertion-sort/
+	public static int[] doInsertionSort(int[] input){
+         
+        int temp;
+        for (int i = 1; i < input.length; i++) {
+            for(int j = i ; j > 0 ; j--){
+                if(input[j] < input[j-1]){
+                    temp = input[j];
+                    input[j] = input[j-1];
+                    input[j-1] = temp;
+                }
+            }
+        }
+        return input;
+    }
+}*/
+	
+	static Vehicle[] sortSelectionYear(Vehicle[] inventory){
+		for (int i = 1; i<inventory.length; i++) {
+			for (int j = i; j>0; j--) {
+				if(inventory[j] != null && inventory[j-1] != null) {
+					if (inventory[j].year < inventory[j-1].year) {
+						Vehicle temp = inventory[j];
+						inventory[j] = inventory[j-1];
+						inventory[j-1] = temp;
+					}
+		
+				}
+			}
+		}
+		printAll(inventory);			
+		return inventory;
+	}
+	
+	//selection sorts given Vehicle array by Year
+	static Vehicle[] sortInsertionYear(Vehicle[] inventory){	
+		for(int i = 0; i<inventory.length-1; i++) {
 			if (inventory[i] != null) {
 				int min = inventory[i].year;
 				int minInt = i;
@@ -171,7 +217,7 @@ public class Vehicle{
 		return list;
 	}
 	
-	//returns a list of vehicles from the given inventory and from the given year 
+	//returns a list of vehicles from the given inventory and from a manufacturer
 	static Vehicle[] findByMake(Vehicle[] inventory, String make) {
 		Vehicle[] list = new Vehicle[10];
 		for (int i = 0; i<inventory.length; i++){
@@ -325,22 +371,26 @@ public class Vehicle{
 	
 	public static void main(String[] args){
 		Vehicle[] inventory = new Vehicle[10];
-		Vehicle test = new Vehicle(2768,"Toyota","RAV4",2000,"white",2000,9999.99,120000, new Manufacturer("Joe Car","12 Main Street","555-555-5555"));
-		Vehicle test1 = new Vehicle(2996,"BMW","Z3",2016,"gold",2000,44999.99,2000, new Manufacturer("Jane Truck","47 Pomona Street","555-444-5555"));
-		Vehicle test2 = new Vehicle(2232,"Ford","Taurus",2017,"blue",2000,19999.99,2000, new Manufacturer("Gus Gas","333 Triple Street","555-333-5555"));
-		Vehicle test3 = new Vehicle(2554,"Volkswagen","Jetta",2010,"green",2000,19999.99,140000, new Manufacturer("Annie Sullivan","27 Central Avenue","555-222-5555"));
-		Vehicle test4 = new Vehicle(2097,"Tesla","S",2017,"black",2000,69999.99,130000, new Manufacturer("Mary Smith","86 Cliff Blvd.","555-111-5555"));
+		Vehicle test = new Vehicle(2768,"Toyota","RAV4",2000,"white",2000,9999.99,120000, new Manufacturer("CarCo","12 Main Street","555-555-5555"));
+		Vehicle test1 = new Vehicle(2996,"BMW","Z3",2016,"gold",2000,44999.99,2000, new Manufacturer("TruckaRoo","47 Pomona Street","555-444-5555"));
+		Vehicle test2 = new Vehicle(2232,"Ford","Taurus",2017,"blue",2000,19999.99,2000, new Manufacturer("Gus's Gas n Stuff","333 Triple Street","555-333-5555"));
+		Vehicle test3 = new Vehicle(2554,"Volkswagen","Jetta",2011,"green",2000,19999.99,140000, new Manufacturer("On Petrol(ium)","27 Central Avenue","555-222-5555"));
+		Vehicle test4 = new Vehicle(2097,"Tesla","S",2017,"black",2000,69999.99,130000, new Manufacturer("Dealin' Dennis","86 Cliff Blvd.","555-111-5555"));
+		Vehicle test5 = new Vehicle(2235,"Subaru","Outback",2001,"green",2000,12999.99,88000, new Manufacturer("Subaru Paradise","5 Subaru Lane","555-123-5555"));
+		Vehicle test6 = new Vehicle(2154,"Ford","Fiesta",2008,"blue",2000,7999.99,120000, new Manufacturer("CarMart","631 Castle Court","555-456-5555"));
 		test.addVehicle(inventory);
 		test1.addVehicle(inventory);
 		test2.addVehicle(inventory);
 		test3.addVehicle(inventory);
 		test4.addVehicle(inventory);
+		test5.addVehicle(inventory);
+		test6.addVehicle(inventory);
 		printAll(inventory);
 		test1.removeVehicle(inventory);
 		System.out.println("Removing "+test1.make+"...\n");
 		printAll(inventory);
-		System.out.println("Year 2000:\n");
-		Vehicle[] twoThousand = findByYear(inventory, 2000);
+		System.out.println("Year 2017:\n");
+		Vehicle[] twoThousand = findByYear(inventory, 2017);
 		printAll(twoThousand);
 		System.out.println("Made By Ford:\n");
 		Vehicle[] fords = findByMake(inventory, "Ford");
@@ -363,11 +413,13 @@ public class Vehicle{
 		System.out.println("Min Mileage: "+findMinMileage(inventory)+"\n note: 3000 miles added via earlier method");
 		System.out.println("Max Mileage: "+findMaxMileage(inventory));
 		System.out.println("Number of cars in need of oil change: "+numNeedingOil(inventory)+"\n note: Toyota oil change via earlier method");
-		System.out.println("\nSorted by VIN:");
+		System.out.println("\nSorted by VIN:\n");
 		sortVIN(inventory);
-		System.out.println("\nSorted by Year:");
-		sortYear(inventory);
-		System.out.println("\nSorted by Make:");
+		System.out.println("\nInsertion sorted by Year:\n");
+		sortInsertionYear(inventory);
+		System.out.println("\nSelection Sorted by Year:\n");
+		sortSelectionYear(inventory);
+		System.out.println("\nSorted by Make:\n");
 		sortMake(inventory);
 	} 
 }
